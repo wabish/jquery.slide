@@ -10,6 +10,7 @@
       isShowDots: true,                 // 是否显示状态点
       isShowArrow: true,                // 是否显示左右箭头
       isHoverShowArrow: true,           // 是否鼠标移上才显示箭头
+      isLoadAllImgs: false,             // 是否一次性加载完全部图片
       slideSpeed: 10000,                // 轮播速度 (ms)
       switchSpeed: 500,                 // 图片切换速度 (ms)
       dotsClass: 'dots',                // 状态点样式
@@ -36,29 +37,42 @@
     init: function(elem, options) {
       var $self = $(elem),
           list = $self.find('ul li'),
-          self = this;
+          self = this,
+          o;
 
-      this.options = $.extend({}, this.defaults, options);
+      o = this.options = $.extend({}, this.defaults, options);
 
       // 显示状态点
-      if (this.options.isShowDots) {
+      if (o.isShowDots) {
         this._createDots(elem, list);
       }
 
       // 显示左右箭头
-      if (this.options.isShowArrow) {
+      if (o.isShowArrow) {
         this._createArrow(elem, list);
+      }
+
+      // 一次性加载完全部图片
+      if (o.isLoadAllImgs) {
+        list.each(function() {
+          $(this).css({
+            'background': 'url(' + $(this).attr('data-bg') + ')',
+            'opacity': '0',
+            'z-index': '0'
+          });
+          $(this).attr('data-bg', '');
+        });
       }
 
       // 显示第一个
       this._showBlock(list[this.curIndex]);
 
       // 自动轮播
-      if (this.options.isAutoSlide) {
+      if (o.isAutoSlide) {
         this._defaultSlide(list);
 
         // 鼠标移入移除事件
-        if (this.options.isHoverStop) {
+        if (o.isHoverStop) {
           var className = $self.attr('class');
           $self.on('mouseenter', function(e) {
             clearInterval(self.timer);
@@ -69,7 +83,7 @@
         }
 
         // Window获取失去焦点事件
-        if (this.options.isBlurStop) {
+        if (o.isBlurStop) {
           $(window).on('blur', function() {
             clearInterval(self.timer);
           }).on('focus', function() {
