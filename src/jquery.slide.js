@@ -9,11 +9,12 @@
       isBlurStop: true,                 // Window失去焦点是否停止轮播
       isShowDots: true,                 // 是否显示状态点
       isShowArrow: true,                // 是否显示左右箭头
+      isHoverShowArrow: true,           // 是否鼠标移上才显示箭头
       slideSpeed: 10000,                // 轮播速度 (ms)
       switchSpeed: 500,                 // 图片切换速度 (ms)
       dotsClass: 'dots',                // 状态点样式
       dotActiveClass: 'active',         // 状态点激活样式
-      dotsEvent: 'click',               // 状态点事件，click或mouseover
+      dotsEvent: 'click',               // 状态点事件，click或mouseover或mouseenter
       arrowClass: 'arrow',              // 箭头样式
       arrowLeftClass: 'arrow-left',     // 左箭头样式
       arrowRightClass: 'arrow-right'    // 右箭头样式
@@ -59,11 +60,9 @@
         // 鼠标移入移除事件
         if (this.options.isHoverStop) {
           var className = $self.attr('class');
-          $self.on('mouseover', function(e) {
-            if (self.timer) {
-              clearInterval(self.timer);
-            }
-          }).on('mouseout', function() {
+          $self.on('mouseenter', function(e) {
+            clearInterval(self.timer);
+          }).on('mouseleave', function() {
             clearInterval(self.timer);
             self._defaultSlide(list);
           });
@@ -149,7 +148,7 @@
       this.dotsList = dotsList;
 
       // dots添加事件
-      if (dotsEvent === 'click' || dotsEvent === 'mouseover') {
+      if (dotsEvent === 'click' || dotsEvent === 'mouseover' || dotsEvent === 'mouseenter') {
         dots.find('li').on(dotsEvent, function() {
           self._hideBlock(list[self.curIndex]);
           self.curIndex =  $(this).index();
@@ -176,6 +175,15 @@
 
       arrow.append(leftArrow).append(rightArrow);
       $(elem).append(arrow);
+
+      if (this.options.isHoverShowArrow) {
+        arrow.css('opacity', 0);
+        $(elem).on('mouseenter', function() {
+          arrow.css('opacity', 1);
+        }).on('mouseleave', function() {
+          arrow.css('opacity', 0);
+        });
+      }
 
       leftArrow.on('click', function() {
         self._hideBlock(list[self.curIndex]);
