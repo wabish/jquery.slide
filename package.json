@@ -5,7 +5,7 @@
   "description": "A simple jQuery slider.",
   "repository": {
     "type": "git",
-    "url": "https://github.com/cobish/jquery.scrolltop.git"
+    "url": "https://github.com/cobish/jquery.slider.git"
   },
   "author": {
     "name": "cobish",
