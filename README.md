@@ -15,14 +15,14 @@ $ bower install jquery.slide --save
 ```
 
 ## Demo
-[https://cobish.github.io/jquery.slide/](https://cobish.github.io/jquery.slide/)
+[https://wabish.github.io/jquery.slide/](https://wabish.github.io/jquery.slide/)
 
 ## How to use
 
 First include the ``jquery.slide.css`` file, you can also create your own style file.
 
 ``` css
-<link rel="stylesheet" href="./css/jquery.slide.css" />
+<link rel="stylesheet" href="css/jquery.slide.css" />
 ```
 
 Simply include the `jquery.slide.min.js` file and place the following in the head of your document (make sure **jQuery** is included).
